@@ -17,18 +17,17 @@ client_start.xhtml - Erste Clinet Seite, die unmittelbar nach dem Start
 <body>
 <ui:composition template="/masterLayout.xhtml">
 
-  <ui:define name="title">Startseite</ui:define>
+  <ui:define name="title">Bookit</ui:define>
 
   <ui:define name="content">
   
     <p>Bitte Namen eingeben: <h:inputText id="id_name" label="Name" 
-                    value="#{myBean.name}" required="true" size="50"
+                    value="#{bb.name}" required="true" size="50"
                     title="Name eingeben und Button klicken"/>
     </p>
     <p><h:commandButton value="Go" action="client_hallo"/></p>
       
-  <p>Diese Anwendung dient als Template für Ihre eigenen Anwendungen.</p>
-  
+ 
   <hr/><h3>Quellcode-Downloads</h3>
 
   <ul>
