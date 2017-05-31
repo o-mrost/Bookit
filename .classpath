@@ -19,5 +19,6 @@
 			<attribute name="owner.project.facets" value="jst.jsf"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/lisan/eclipse/Jars/primefaces-6.0-sources.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
