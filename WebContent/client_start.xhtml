@@ -22,16 +22,39 @@ client_start.xhtml - Erste Clinet Seite, die unmittelbar nach dem Start
 		<ui:define name="content">
 			<p>Zugriff auf einen MySQL Server für Bookit</p>
 
-	Booking_Id:
-	<h:inputText id="id_booking" value="#{mb_browse.id_booking}" />
+		Booking_Id:
+		<h:inputText id="id_booking" value="#{mb_browse.id_booking}" />
 
 			<p />
-	Company_Id:
-	<h:inputText id="id_company" value="#{mb_browse.id_company}" />
+		Company_Id:
+		<h:inputText id="id_company" value="#{mb_browse.id_company}" />
 			<p />
-	Customer_Id:
-	<h:inputText id="id_customer" value="#{mb_browse.id_customer}" />
+		Customer_Id:
+		<h:inputText id="id_customer" value="#{mb_browse.id_customer}" />
 			<p />
+			
+		Time from:
+		<h:inputText id="time_from" value="#{mb_browse.time_from}">
+
+				<f:convertDateTime locale="de_DE" pattern="dd.MM.yyyy HH:mm" type="date"
+					dateStyle="short" timeZone="MET" />
+			</h:inputText>
+
+			<p />
+		Comment:
+		<h:inputText id="comment" value="#{mb_browse.comment}" />
+			<p />
+
+		Time to:
+		<h:inputText id="time_to" value="#{mb_browse.time_to}">
+
+				<f:convertDateTime locale="de_DE" pattern="dd.MM.yyyy HH:mm" type="date"
+					dateStyle="short" timeZone="MET" />
+			</h:inputText>
+
+			<p />
+
+			<hr />
 
 			<h:commandButton disabled="#{mb_browse.prevButtonDisabled}"
 				value="&lt;&lt;&lt;" actionListener="#{mb_browse.prev}" />
@@ -56,7 +79,6 @@ client_start.xhtml - Erste Clinet Seite, die unmittelbar nach dem Start
 				disabled="#{!mb_browse.connected}"
 				actionListener="#{mb_browse.disconnect}" />
 			<hr />
-
 		</ui:define>
 	</ui:composition>
 </body>
