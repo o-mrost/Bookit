@@ -36,7 +36,6 @@ public class MbBrowse implements Serializable {
 	private Connection con = null;
 	private Statement stm = null;
 	private ResultSet rs = null;
-	// private PreparedStatement ps = null;
 
 	private int id_booking = 0;
 	private int id_company = 0;
@@ -130,9 +129,6 @@ public class MbBrowse implements Serializable {
 		setTime_to(rs.getDate("time_to"));
 		setComment(rs.getString("comment"));
 		setTime_from(rs.getDate("time_from"));
-
-		System.out.println(rs.getDate("time_from"));
-
 	}
 
 	/*--------------------------------------------------------------------------*/
@@ -173,7 +169,7 @@ public class MbBrowse implements Serializable {
 	/*--------------------------------------------------------------------------*/
 
 	/**
-	 * Verbindung zur Datenbank beenden * @param ae 145
+	 * Verbindung zur Datenbank beenden * @param ae
 	 */
 	public void disconnect(ActionEvent ae) {
 		System.out.println("disconnect");
@@ -191,11 +187,12 @@ public class MbBrowse implements Serializable {
 				prevButtonDisabled = true;
 				nextButtonDisabled = true;
 
-				// setMatNr(0);
-				// setName("");
-				// setVorname("");
-				// setGeburtstag(null);
-				// setMasterstudent(false);
+				setId_booking(0);
+				setId_company(0);
+				setId_customer(0);
+				setTime_to(null);
+				setComment("");
+				setTime_from(null);
 
 			} catch (Exception ex) {
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -266,17 +263,18 @@ public class MbBrowse implements Serializable {
 		System.out.println("insert");
 
 		try {
-			// if( ps == null ){
-			String sQl = "INSERT INTO student( " + "mat_nr, name, vorname, geburtstag, masterstudent ) "
-					+ "VALUES ( ?, ?, ?, ?, ? )";
-			PreparedStatement ps = con.prepareStatement(sQl);
-			// }
 
-			// ps.setInt(1, matNr);
-			// ps.setString(2, name);
-			// ps.setString(3, vorname);
-			// ps.setDate(4, geburtstag);
-			// ps.setBoolean(5, masterstudent);
+			String sQl = "INSERT INTO booking (ID_Booking, ID_Company, ID_Customer, "
+					+ "Time_From, Time_To, Comment) VALUES (?, ?, ?, ?, ?, ?)";
+
+			PreparedStatement ps = con.prepareStatement(sQl);
+
+			 ps.setInt(1, id_booking);
+			 ps.setInt(2, id_company);
+			 ps.setInt(3, id_customer);
+			 ps.setDate(4, time_from);
+			 ps.setDate(5, time_to);
+			 ps.setString(6, comment);
 
 			int n = ps.executeUpdate();
 			if (n == 1) {
