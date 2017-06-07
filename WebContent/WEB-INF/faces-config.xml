@@ -1,8 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
-    version="2.2">
 
+<!-- ===========================================================================
+  faces-config.xml - JSF 2.2 Konfigurationsdatei
+  Version: 1.0.2, 2016-11-24, wkl
+============================================================================ -->
+
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+              http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+  <application>
+    
+    <locale-config>
+      <default-locale>de</default-locale>
+      <supported-locale>en</supported-locale>
+    </locale-config>
+     
+  </application>
+
+  <managed-bean>
+    <managed-bean-name>mb_db</managed-bean-name>
+    <managed-bean-class>bookit.MbDb</managed-bean-class>
+    <managed-bean-scope>application</managed-bean-scope>
+
+    <managed-property>
+      <description>true: Connections werden über einen Connection pool 
+                         verwaltet
+      </description>
+      <property-name>use_pool</property-name>
+      <value>false</value>      
+    </managed-property>
+        
+    <managed-property>
+      <property-name>user</property-name>
+      <value>root</value>
+    </managed-property>
+    
+    <managed-property>
+      <property-name>pw</property-name>
+      <value></value>
+    </managed-property>
+    
+    <managed-property>
+      <property-name>constr</property-name>
+      <value>jdbc:mysql://localhost/bookit</value>
+    </managed-property>
+    
+    <managed-property>
+      <property-name>logfile</property-name>
+      <value>/Users/olgamrost/Desktop/browse.log</value>
+    </managed-property>    
+  </managed-bean>
+    
 </faces-config>
