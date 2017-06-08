@@ -11,16 +11,16 @@
 <h:head></h:head>
 
 <body>
-
 	<h:form>
-
 		<p:growl id="messages" showDetail="true" />
-		
-
 
 		<h:panelGrid columnClasses="value">
 
 			<h3 style="margin-top: 0">Calendar</h3>
+
+			<h:commandButton value="Connect"
+				actionListener="#{scheduleView.connect}" />
+
 			<p:schedule id="schedule" value="#{scheduleView.eventModel}"
 				widgetVar="myschedule" timeZone="GMT+2">
 
@@ -41,19 +41,18 @@
 			<h:panelGrid id="eventDetails" columns="2">
 
 				<p:outputLabel for="title" value="Choose treatment:" />
-				<p:inputText id="title" value="#{scheduleView.event.title}"
-					required="true" />
+				<p:inputText id="title" value="#{scheduleView.event.title}" />
 
 				<p:outputLabel for="comment" value="Comment:" />
 				<p:inputText id="comment" value="#{scheduleView.event.description}" />
 
 				<p:outputLabel for="from" value="From:" />
 				<p:calendar id="from" value="#{scheduleView.event.startDate}"
-					timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm" />
+					timeZone="GMT+2" pattern="dd.MM.yyyy HH:mm" />
 
 				<p:outputLabel for="to" value="To:" />
 				<p:calendar id="to" value="#{scheduleView.event.endDate}"
-					timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm" />
+					timeZone="GMT+2" pattern="dd.MM.yyyy HH:mm" />
 
 				<p:outputLabel for="allDay" value="All Day:" />
 				<h:selectBooleanCheckbox id="allDay"

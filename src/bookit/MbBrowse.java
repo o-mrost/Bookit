@@ -21,16 +21,18 @@ public class MbBrowse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	final String SQL_SELECT = "select id_booking, id_company, id_customer, comment, time_from, time_to from booking";
+	// final String SQL_SELECT = "select id_booking, id_company, id_customer,
+	// comment, time_from, time_to from booking";
+
+	final String SQL_SELECT = "SELECT b.ID_Booking booking, b.Time_From timefrom, "
+			+ "b.Time_To timeto, b.Comment comments, c.Company_Name compname, "
+			+ "cus.Customer_Lastname custname FROM booking b join company c on "
+			+ "b.ID_Company=c.ID_Company join customer cus on b.ID_Customer=cus.ID_Customer";
 
 	private boolean connected = false;
 	private boolean prevButtonDisabled = true;
 	private boolean nextButtonDisabled = true;
 
-	/*
-	 * Util ist eine Hilfsklasse, die u. a. den Verbindungsaufbau zur Datenbank
-	 * vereinfacht:
-	 */
 	private Util util = new Util();
 
 	private Connection con = null;
@@ -42,6 +44,25 @@ public class MbBrowse implements Serializable {
 	private int id_customer = 0;
 	private Date time_to = new Date(0L);
 	private String comment;
+	private String companyName = "";
+	private String customerName;
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
 	private Date time_from = new Date(0L);
 
 	public java.util.Date getTime_from() {
@@ -123,12 +144,21 @@ public class MbBrowse implements Serializable {
 	/*--------------------------------------------------------------------------*/
 
 	private void showData() throws SQLException {
-		setId_booking(rs.getInt("id_booking"));
-		setId_company(rs.getInt("id_company"));
-		setId_customer(rs.getInt("id_customer"));
-		setTime_to(rs.getDate("time_to"));
-		setComment(rs.getString("comment"));
-		setTime_from(rs.getDate("time_from"));
+		// setId_booking(rs.getInt("id_booking"));
+		// setId_company(rs.getInt("id_company"));
+		// setId_customer(rs.getInt("id_customer"));
+		// setTime_to(rs.getDate("time_to"));
+		// setComment(rs.getString("comment"));
+		// setTime_from(rs.getDate("time_from"));
+
+		setId_booking(rs.getInt("booking"));
+		setCompanyName(rs.getString("compname"));
+		setCustomerName(rs.getString("custname"));
+		//setId_company(rs.getInt("id_company"));
+		//setId_customer(rs.getInt("id_customer"));
+		setTime_to(rs.getDate("timeto"));
+		setComment(rs.getString("comments"));
+		setTime_from(rs.getDate("timefrom"));
 	}
 
 	/*--------------------------------------------------------------------------*/
@@ -169,7 +199,8 @@ public class MbBrowse implements Serializable {
 	/*--------------------------------------------------------------------------*/
 
 	/**
-	 * Verbindung zur Datenbank beenden * @param ae
+	 * Verbindung zur Datenbank beenden 
+	 * * @param ae
 	 */
 	public void disconnect(ActionEvent ae) {
 		System.out.println("disconnect");
@@ -193,6 +224,8 @@ public class MbBrowse implements Serializable {
 				setTime_to(null);
 				setComment("");
 				setTime_from(null);
+				setCompanyName("");
+				setCustomerName("");
 
 			} catch (Exception ex) {
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -269,12 +302,12 @@ public class MbBrowse implements Serializable {
 
 			PreparedStatement ps = con.prepareStatement(sQl);
 
-			 ps.setInt(1, id_booking);
-			 ps.setInt(2, id_company);
-			 ps.setInt(3, id_customer);
-			 ps.setDate(4, time_from);
-			 ps.setDate(5, time_to);
-			 ps.setString(6, comment);
+			ps.setInt(1, id_booking);
+			ps.setInt(2, id_company);
+			ps.setInt(3, id_customer);
+			ps.setDate(4, time_from);
+			ps.setDate(5, time_to);
+			ps.setString(6, comment);
 
 			int n = ps.executeUpdate();
 			if (n == 1) {
