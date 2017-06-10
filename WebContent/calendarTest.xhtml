@@ -60,7 +60,7 @@
 
 				<p:commandButton type="reset" value="Reset" />
 				<p:commandButton id="addButton" value="Save"
-					actionListener="#{scheduleView.addEvent}"
+					actionListener="#{scheduleView.insert}"
 					oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
 			</h:panelGrid>
 		</p:dialog>

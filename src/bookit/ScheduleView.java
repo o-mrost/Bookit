@@ -4,9 +4,12 @@ import static java.lang.System.out;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.PostConstruct;
@@ -42,7 +45,9 @@ public class ScheduleView implements Serializable {
 	private String comment;
 	private String companyName = "";
 	private String customerName;
-	
+
+	private TimeConvert convert = new TimeConvert();
+
 	final String SQL_SELECT = "SELECT b.ID_Booking booking, b.Time_From timefrom, "
 			+ "b.Time_To timeto, b.Comment comments, c.Company_Name compname, "
 			+ "cus.Customer_Lastname custname FROM booking b join company c on "
@@ -51,9 +56,9 @@ public class ScheduleView implements Serializable {
 	private ScheduleModel eventModel;
 	private ScheduleModel lazyEventModel;
 	private ScheduleEvent event = new DefaultScheduleEvent();
-	
-	// getters and setters 
-	
+
+	// getters and setters
+
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -108,12 +113,11 @@ public class ScheduleView implements Serializable {
 	public void setId_booking(int id_booking) {
 		this.id_booking = id_booking;
 	}
- // 
+	//
 
 	@PostConstruct
 	public void init() {
 		eventModel = new DefaultScheduleModel();
-		
 		connectToDb();
 
 	}
@@ -127,9 +131,9 @@ public class ScheduleView implements Serializable {
 			try {
 				stm = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 				rs = stm.executeQuery(SQL_SELECT);
-//				if (rs.first())
-//					showData();
-				while(rs.next()){
+				// if (rs.first())
+				// showData();
+				while (rs.next()) {
 					addAppointmentData();
 				}
 
@@ -180,9 +184,9 @@ public class ScheduleView implements Serializable {
 		}
 	}
 
-	private void addAppointmentData() throws SQLException{
+	private void addAppointmentData() throws SQLException {
 		System.out.println("here comes show data method");
-		
+
 		setId_booking(rs.getInt("booking"));
 		setCompanyName(rs.getString("compname"));
 		setCustomerName(rs.getString("custname"));
@@ -227,10 +231,53 @@ public class ScheduleView implements Serializable {
 		this.event = event;
 	}
 
-	public void addEvent(ActionEvent actionEvent) {
-		if (event.getId() == null)
+	public void insert(ActionEvent actionEvent) throws ParseException {
+
+		if (event.getId() == null) {
+
+			String sql_insert = "INSERT INTO booking (ID_Company, ID_Customer, Time_From, Time_To, Comment) VALUES (?, ?, ?, ?, ?)";
+
+			try {
+
+				String timeFrom = convert.convertTime(event.getStartDate().toString());
+				String timeTo = convert.convertTime(event.getEndDate().toString());
+
+				// convert java String to sql date
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				java.util.Date date = sdf.parse(timeFrom);
+				java.sql.Timestamp sqlStartDate = new java.sql.Timestamp(date.getTime());
+
+				java.util.Date date2 = sdf.parse(timeTo);
+				java.sql.Timestamp sqlEndDate = new java.sql.Timestamp(date2.getTime());
+
+				PreparedStatement ps = con.prepareStatement(sql_insert);
+
+				ps.setInt(1, 1);
+				ps.setInt(2, 100);
+				ps.setTimestamp(3, sqlStartDate);
+				ps.setTimestamp(4, sqlEndDate);
+				ps.setString(5, event.getTitle());
+
+				int n = ps.executeUpdate();
+				if (n == 1) {
+					out.println("O.K., Datensatz eingefügt.");
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"O. K.", "Ein Datensatz erfolgreich eingefügt."));
+				}
+
+				ps.close();
+
+				// rs = stm.executeQuery(sql_insert);
+
+			} catch (SQLException ex) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "SQLException", ex.getLocalizedMessage()));
+				out.println("Error: " + ex);
+				ex.printStackTrace();
+			}
+
 			eventModel.addEvent(event);
-		else
+		} else
 			eventModel.updateEvent(event);
 
 		event = new DefaultScheduleEvent();
