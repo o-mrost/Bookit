@@ -24,7 +24,6 @@ import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
@@ -54,10 +53,21 @@ public class ScheduleView implements Serializable {
 			+ "b.ID_Company=c.ID_Company join customer cus on b.ID_Customer=cus.ID_Customer";
 
 	private ScheduleModel eventModel;
-	private ScheduleModel lazyEventModel;
 	private ScheduleEvent event = new DefaultScheduleEvent();
 
 	// getters and setters
+	
+	public ScheduleModel getEventModel() {
+		return eventModel;
+	}
+
+	public ScheduleEvent getEvent() {
+		return event;
+	}
+
+	public void setEvent(ScheduleEvent event) {
+		this.event = event;
+	}
 
 	public String getCompanyName() {
 		return companyName;
@@ -113,7 +123,13 @@ public class ScheduleView implements Serializable {
 	public void setId_booking(int id_booking) {
 		this.id_booking = id_booking;
 	}
-	//
+	
+	public Date getInitialDate() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(calendar.get(Calendar.YEAR), Calendar.FEBRUARY, calendar.get(Calendar.DATE), 0, 0, 0);
+
+		return calendar.getTime();
+	}
 
 	@PostConstruct
 	public void init() {
@@ -134,7 +150,7 @@ public class ScheduleView implements Serializable {
 				// if (rs.first())
 				// showData();
 				while (rs.next()) {
-					addAppointmentData();
+					displayAllAppointmentData();
 				}
 
 			} catch (Exception ex) {
@@ -169,7 +185,7 @@ public class ScheduleView implements Serializable {
 				stm = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 				rs = stm.executeQuery(SQL_SELECT);
 				if (rs.first())
-					addAppointmentData();
+					displayAllAppointmentData();
 
 			} catch (Exception ex) {
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -184,8 +200,7 @@ public class ScheduleView implements Serializable {
 		}
 	}
 
-	private void addAppointmentData() throws SQLException {
-		System.out.println("here comes show data method");
+	private void displayAllAppointmentData() throws SQLException {
 
 		setId_booking(rs.getInt("booking"));
 		setCompanyName(rs.getString("compname"));
@@ -197,40 +212,7 @@ public class ScheduleView implements Serializable {
 		eventModel.addEvent(new DefaultScheduleEvent(comment, time_from, time_to));
 
 	}
-
-	public Date getRandomDate(Date base) {
-		Calendar date = Calendar.getInstance();
-		date.setTime(base);
-		date.add(Calendar.DATE, ((int) (Math.random() * 30)) + 1); // set random
-																	// day of
-																	// month
-
-		return date.getTime();
-	}
-
-	public Date getInitialDate() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(calendar.get(Calendar.YEAR), Calendar.FEBRUARY, calendar.get(Calendar.DATE), 0, 0, 0);
-
-		return calendar.getTime();
-	}
-
-	public ScheduleModel getEventModel() {
-		return eventModel;
-	}
-
-	public ScheduleModel getLazyEventModel() {
-		return lazyEventModel;
-	}
-
-	public ScheduleEvent getEvent() {
-		return event;
-	}
-
-	public void setEvent(ScheduleEvent event) {
-		this.event = event;
-	}
-
+	
 	public void insert(ActionEvent actionEvent) throws ParseException {
 
 		if (event.getId() == null) {
