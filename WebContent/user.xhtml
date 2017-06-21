@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head></h:head>
+
+<h:body>
+	<ui:composition template="/masterLayout.xhtml">
+		<ui:define name="title">Hallo</ui:define>
+		<ui:define name="content">
+
+			<!-- doenst change boolean loggedIn -->
+			
+			<h:panelGroup rendered="#{lb.userLoggedIn}">
+				<h3>Hallo Administrator</h3>
+				<p>
+					Heute ist der
+					<h:outputText value="#{lb.date}">
+						<f:convertDateTime 	locale="de_DE" 
+											dateStyle="full" 
+											type="both" />
+					</h:outputText>
+				</p>
+				<p>
+					<h:commandButton 	value="Zurück" 
+										action="login.xhtml" />
+				</p>
+				
+				<f:facet name="footer">
+						<h:commandButton 	value="Login" 
+											action="#{lb.actLogin}"/>
+				</f:facet>
+				
+				<h:commandButton 	value="Login" 
+									action="#{login.actLogin}"/>
+				<p />
+					<h:outputLabel 	value="Wert auswählen" 
+									for="id_somDemo" />&#160;
+  					<h:selectOneMenu 	id="id_somDemo" 
+  										label="Combodemo"
+										onchange="form.submit()" 
+										value="#{ub.auswahl}"
+										valueChangeListener="#{ub.cbxChangeListener}"
+										binding="#{ub.cbxSkin}">
+						<f:selectItems value="#{ub.options}" />
+					</h:selectOneMenu>
+ 					<h:outputText value="Sie haben #{ub.auswahl} gewählt" />
+					<p />
+					<hr />
+					<p />
+					<h:outputLabel	value="Hier ein Beispiel mit Listbox (Mehrfachauswahl):"
+									for="id_smlDemo" />&#160;
+  					<h:selectManyListbox 	id="id_smlDemo" 
+  											size="3"
+											label="Listenfeld mit Mehrfachauswahl" 
+											autoSubmit="false"
+											value="#{ub.listAuswahlArray}"
+											valueChangeListener="#{ub.lstChangeListener}">
+						<f:selectItems value="#{ub.options}" />
+					</h:selectManyListbox>
+					<p />Selektierte Listenelemente: #{ub.listAuswahlString}
+				</h:panelGroup>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

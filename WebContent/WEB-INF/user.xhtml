@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html>
+
+<!-- ===========================================================================
+client_hallo.xhtml - Zweite Client Seite, die nach dem Click auf den Button 
+                     in der Start Seite angezeigt wird                    
+============================================================================ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head></h:head>
+
+<h:body>
+	<ui:composition template="/masterLayout.xhtml">
+
+		<ui:define name="title">Hallo</ui:define>
+
+		<ui:define name="content">
+
+			<h:panelGroup rendered="#{mb.LoggedIn}">
+				<h3>Hallo Administrator</h3>
+				<p>
+					Heute is
+					<h:outputText value="#{mb.date}">
+						<f:converDateTime locale="de_DE" dateStyle="full" type="both" />
+					</h:outputText>
+				<p>
+					<h:commandButton value="Zurück" action="login.xhtml" />
+				</p>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

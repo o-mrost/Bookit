@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html>
+
+<!-- ===========================================================================
+client_hallo.xhtml - Zweite Client Seite, die nach dem Click auf den Button 
+                     in der Start Seite angezeigt wird                    
+============================================================================ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+
+<h:body>
+	<ui:composition template="/masterLayout.xhtml">
+		<ui:define name="title">Hallo Admin</ui:define>
+		<ui:define name="content">
+
+			<h:form rendered="#{lb.adminLoggedIn}">
+				<p:growl id="msgs" showDetail="true" />
+
+				<p:dashboard id="board" model="#{db.model}">
+					<p:ajax event="reorder" listener="#{db.handleReorder}"
+						update="msgs" />
+
+					<p:panel id="services" header="Verfügbare Termine">
+						<h:outputText value="Hier stehen alle wählbaren Termin" />
+						<p:dataTable var="car" value="#{dtBasicView.cars}">
+							<p:column headerText="Id">
+								<h:outputText value="#{car.id}" />
+							</p:column>
+
+							<p:column headerText="Year">
+								<h:outputText value="#{car.year}" />
+							</p:column>
+
+							<p:column headerText="Brand">
+								<h:outputText value="#{car.brand}" />
+							</p:column>
+
+							<p:column headerText="Color">
+								<h:outputText value="#{car.color}" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+
+					<p:panel id="about" header="Über uns">
+						<h:outputText value="Wir sind die allercoooolsten" />
+					</p:panel>
+
+					<p:panel id="news" header="News">
+						<h:outputText value="Hier stehen alle News" />
+					</p:panel>
+				</p:dashboard>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

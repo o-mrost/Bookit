@@ -5,28 +5,123 @@ header.xhtml - Standard Header Seite
 ============================================================================ -->
 
 <!DOCTYPE html>
-                      
+
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head></h:head>
 
 <h:body>
 
-  <a href="http://myfaces.apache.org//">
-           <img class="csslogo" src="resources/img/jsf-logo.png" alt="JSF"/></a>
-           
-  <div class="header">
-    <h:panelGrid columns="2">
-    <h:graphicImage library="img" name="java.png" alt="Logo"/>
-    <h:outputText value="Bookit"
-                  styleClass="branding" /></h:panelGrid>        
-  <!--  ==================================================================   -->
-   
-  <h:messages globalOnly="false"    showDetail="true" showSummary="true" 
-              infoClass="msgInfo"   warnClass="msgWarning"
-              errorClass="msgError" fatalClass="msgFatal"/>
-  </div>
+	<div class="header">
+		<h:panelGrid columns="1">
+			<h:graphicImage library="img" name="bookit_header.png" alt="header" />
+		</h:panelGrid>
+
+		<!--  ===================================Login menu user===============================   -->
+
+		<h:form rendered="#{lb.userLoggedIn}">
+			<p:growl id="messages" />
+
+			<p:menubar>
+				<p:submenu label="Termin" icon="ui-icon-contact">
+					<p:submenu label="Termin buchen" icon="ui-icon-contact">
+						<p:menuitem value="Liste der Services" url="#" />
+						<p:menuitem value="Service suchen" url="#" icon="ui-icon-search"/>
+					</p:submenu>
+					<p:menuitem value="Termin ändern" icon="ui-icon-pencil" url="#" />
+					<p:separator />
+				</p:submenu>
+
+				<p:submenu label="Buchungsübersicht" icon="ui-icon-pencil">
+					<p:menuitem value="Mein Account" url="#"/>
+					<p:menuitem value="Aktuelle Termine" url="#"/>
+				</p:submenu>
+
+				<p:submenu label="Kontakt" icon="ui-icon-help">
+					<p:menuitem value="Anfahrt" url="#" />
+					<p:submenu label="Kontaktdetails" >
+					</p:submenu>
+				</p:submenu>
+
+				<f:facet name="options">
+					<p:inputText style="margin-right:12px" placeholder="Suchen" />
+					<p:commandButton type="button" value="Logout"
+						icon="ui-icon-extlink" />
+				</f:facet>
+			</p:menubar>
+		</h:form>
+		
+		<!--  ===================================Login menu admin===============================   -->
+
+		<h:form rendered="#{lb.adminLoggedIn}">
+			<p:growl id="messages" />
+
+			<p:menubar>
+				<p:submenu label="Termin" icon="ui-icon-contact">
+					<p:submenu label="Termin buchen" icon="ui-icon-contact">
+						<p:menuitem value="Liste der Services" url="#" />
+						<p:menuitem value="Service suchen" url="#" icon="ui-icon-search"/>
+					</p:submenu>
+					<p:menuitem value="Termin ändern" icon="ui-icon-pencil" url="#" />
+					<p:separator />
+				</p:submenu>
+
+				<p:submenu label="Buchungsübersicht" icon="ui-icon-pencil">
+					<p:menuitem value="Mein Account" url="#"/>
+					<p:menuitem value="Aktuelle Termine" url="#"/>
+				</p:submenu>
+
+				<p:submenu label="Kontakt" icon="ui-icon-help">
+					<p:menuitem value="Anfahrt" url="#" />
+					<p:submenu label="Kontaktdetails" >
+					</p:submenu>
+				</p:submenu>
+
+				<f:facet name="options">
+					<p:inputText style="margin-right:12px" placeholder="Suchen" />
+					<p:commandButton type="button" value="Logout"
+						icon="ui-icon-extlink" />
+				</f:facet>
+			</p:menubar>
+		</h:form>
+		
+				<!--  ===================================Logout menu===============================   -->
+
+		<h:form rendered="#{!lb.userLoggedIn and !lb.adminLoggedIn}">
+			<p:growl id="messages" />
+
+			<p:menubar>
+				<p:submenu label="Termin" icon="ui-icon-contact">
+					<p:submenu label="Termin buchen" icon="ui-icon-contact">
+						<p:menuitem value="Liste der Services" url="#" />
+						<p:menuitem value="Service suchen" url="#" icon="ui-icon-search"/>
+					</p:submenu>
+					<p:menuitem value="Termin ändern" icon="ui-icon-pencil" url="#" />
+					<p:separator />
+				</p:submenu>
+
+				<p:submenu label="Kontakt" icon="ui-icon-help">
+					<p:menuitem value="Anfahrt" url="#" />
+					<p:submenu label="Kontaktdetails" >
+					</p:submenu>
+				</p:submenu>
+
+				<f:facet name="options">
+					<p:inputText style="margin-right:12px" placeholder="Suchen" />
+				</f:facet>
+			</p:menubar>
+		</h:form>
+		
+		<!--  ==================================================================   -->
+
+		<h:messages globalOnly="false" showDetail="true" showSummary="true"
+			infoClass="msgInfo" warnClass="msgWarning" errorClass="msgError"
+			fatalClass="msgFatal" />
+	</div>
 
 </h:body>
 

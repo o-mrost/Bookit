@@ -20,5 +20,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/lisan/eclipse/Jars/primefaces-6.0-sources.jar"/>
+	<classpathentry kind="lib" path="src/lib/org.osgi.foundation-1.0.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -299,3 +299,15 @@ pre {
     font-family: Arial, Helvetica, sans-serif;
     font-size : 95%;
 }
+
+.foo {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.blue {
+  background: #13b4ff;
+}
